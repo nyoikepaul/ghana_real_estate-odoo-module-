@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Agents Listing Template -->
+    <template id="agents_listing" name="Agents Listing">
+        <t t-call="website.layout">
+            <t t-set="title">Our Agents | Ghana Real Estate</t>
+            
+            <div class="breadcrumb-wrapper">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Agents</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <section class="agents-listing-section section">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Our Team</span>
+                        <h2 class="section-title">Expert Real Estate Agents</h2>
+                        <p class="section-subtitle">Meet our team of experienced professionals ready to help you</p>
+                    </div>
+                    
+                    <div class="agents-grid">
+                        <t t-foreach="agents" t-as="agent">
+                            <div class="agent-card">
+                                <div class="agent-photo">
+                                    <t t-if="agent.photo">
+                                        <img t-att-src="'/web/image/ghana_real_estate.agent/%d/photo' % agent.id" 
+                                             class="img-fluid" t-att-alt="agent.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="agent-placeholder">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="agent-info">
+                                    <h3 class="agent-name">
+                                        <a t-att-href="'/agent/%d' % agent.id" t-esc="agent.name"/>
+                                    </h3>
+                                    <p class="agent-title" t-esc="agent.title"/>
+                                    
+                                    <div class="agent-stats">
+                                        <span class="stat-item">
+                                            <i class="fa fa-home"></i>
+                                            <t t-esc="agent.properties_count"/> Properties
+                                        </span>
+                                        <span class="stat-item">
+                                            <i class="fa fa-star"></i>
+                                            <t t-esc="agent.client_rating"/> Rating
+                                        </span>
+                                        <span class="stat-item">
+                                            <i class="fa fa-briefcase"></i>
+                                            <t t-esc="agent.years_experience"/> Years
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="agent-contact">
+                                        <a t-att-href="'tel:%s' % agent.phone" class="contact-link" title="Phone">
+                                            <i class="fa fa-phone"></i>
+                                        </a>
+                                        <a t-att-href="'mailto:%s' % agent.email" class="contact-link" title="Email">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
+                                        <t t-if="agent.whatsapp">
+                                            <a t-att-href="'https://wa.me/%s' % agent.whatsapp.replace('+', '').replace(' ', '')" 
+                                               class="contact-link" target="_blank" title="WhatsApp">
+                                                <i class="fa fa-whatsapp"></i>
+                                            </a>
+                                        </t>
+                                        <t t-if="agent.linkedin">
+                                            <a t-att-href="agent.linkedin" class="contact-link" target="_blank" title="LinkedIn">
+                                                <i class="fa fa-linkedin"></i>
+                                            </a>
+                                        </t>
+                                    </div>
+                                    
+                                    <div class="agent-actions">
+                                        <a t-att-href="'/agent/%d' % agent.id" class="btn btn-outline-primary">
+                                            View Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- Agent Detail Template -->
+    <template id="agent_detail" name="Agent Detail">
+        <t t-call="website.layout">
+            <t t-set="title">%s | Ghana Real Estate</t> % (agent.name if agent else 'Agent')
+            
+            <div class="breadcrumb-wrapper">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/agents">Agents</a></li>
+                            <li class="breadcrumb-item active" t-esc="agent.name"/>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <section class="agent-detail-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <!-- Agent Profile Card -->
+                            <div class="agent-profile-card">
+                                <div class="profile-photo">
+                                    <t t-if="agent.photo">
+                                        <img t-att-src="'/web/image/ghana_real_estate.agent/%d/photo' % agent.id" 
+                                             class="img-fluid" t-att-alt="agent.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="agent-placeholder large">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="profile-info">
+                                    <h2 class="agent-name" t-esc="agent.name"/>
+                                    <p class="agent-title" t-esc="agent.title"/>
+                                    
+                                    <div class="agent-rating">
+                                        <div class="stars">
+                                            <t t-foreach="range(5)" t-as="i">
+                                                <i t-att-class="'fa %s' % ('fa-star' if i < int(agent.client_rating) else 'fa-star-o')"/>
+                                            </t>
+                                        </div>
+                                        <span class="rating-text">
+                                            <t t-esc="agent.client_rating"/> (<t t-esc="agent.review_count"/> reviews)
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="agent-meta">
+                                        <div class="meta-item">
+                                            <i class="fa fa-id-card"></i>
+                                            <span>License: <t t-esc="agent.license_number"/></span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fa fa-briefcase"></i>
+                                            <span><t t-esc="agent.years_experience"/> Years Experience</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fa fa-home"></i>
+                                            <span><t t-esc="agent.properties_count"/> Properties</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Form -->
+                            <div class="contact-form-card">
+                                <h4 class="card-title">Contact Agent</h4>
+                                <form action="/property/inquiry" method="post">
+                                    <input type="hidden" name="agent_id" t-att-value="agent.id"/>
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" placeholder="Your Email *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="message" class="form-control" rows="4" 
+                                                  placeholder="I'm interested in working with you..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fa fa-send"></i> Send Message
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Quick Contact -->
+                            <div class="quick-contact-card">
+                                <h4 class="card-title">Quick Contact</h4>
+                                <div class="contact-options">
+                                    <a t-att-href="'tel:%s' % agent.phone" class="contact-option">
+                                        <i class="fa fa-phone"></i>
+                                        <span t-esc="agent.phone"/>
+                                    </a>
+                                    <a t-att-href="'mailto:%s' % agent.email" class="contact-option">
+                                        <i class="fa fa-envelope"></i>
+                                        <span t-esc="agent.email"/>
+                                    </a>
+                                    <t t-if="agent.mobile">
+                                        <a t-att-href="'tel:%s' % agent.mobile" class="contact-option">
+                                            <i class="fa fa-mobile"></i>
+                                            <span t-esc="agent.mobile"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="agent.whatsapp">
+                                        <a t-att-href="'https://wa.me/%s' % agent.whatsapp.replace('+', '').replace(' ', '')" 
+                                           class="contact-option whatsapp" target="_blank">
+                                            <i class="fa fa-whatsapp"></i>
+                                            <span>Chat on WhatsApp</span>
+                                        </a>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <!-- Social Media -->
+                            <div class="social-card">
+                                <h4 class="card-title">Follow Agent</h4>
+                                <div class="social-links">
+                                    <t t-if="agent.facebook">
+                                        <a t-att-href="agent.facebook" class="social-link facebook" target="_blank">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </t>
+                                    <t t-if="agent.twitter">
+                                        <a t-att-href="agent.twitter" class="social-link twitter" target="_blank">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </t>
+                                    <t t-if="agent.linkedin">
+                                        <a t-att-href="agent.linkedin" class="social-link linkedin" target="_blank">
+                                            <i class="fa fa-linkedin"></i>
+                                        </a>
+                                    </t>
+                                    <t t-if="agent.instagram">
+                                        <a t-att-href="agent.instagram" class="social-link instagram" target="_blank">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <!-- About Section -->
+                            <div class="about-section">
+                                <h3 class="section-heading">About</h3>
+                                <div class="agent-bio" t-raw="agent.bio"/>
+                            </div>
+
+                            <!-- Specializations -->
+                            <t t-if="agent.specializations">
+                                <div class="specializations-section">
+                                    <h3 class="section-heading">Specializations</h3>
+                                    <div class="specializations-grid">
+                                        <t t-foreach="agent.specializations" t-as="spec">
+                                            <span class="spec-badge">
+                                                <i class="fa fa-check"></i>
+                                                <t t-esc="spec.name"/>
+                                            </span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- Performance Stats -->
+                            <div class="performance-section">
+                                <h3 class="section-heading">Performance</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <i class="fa fa-home stat-icon"></i>
+                                        <div class="stat-value" t-esc="agent.properties_sold"/>
+                                        <div class="stat-label">Properties Sold</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <i class="fa fa-key stat-icon"></i>
+                                        <div class="stat-value" t-esc="agent.properties_rented"/>
+                                        <div class="stat-label">Properties Rented</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <i class="fa fa-smile-o stat-icon"></i>
+                                        <div class="stat-value" t-esc="agent.client_rating"/>
+                                        <div class="stat-label">Client Rating</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <i class="fa fa-comments-o stat-icon"></i>
+                                        <div class="stat-value" t-esc="agent.review_count"/>
+                                        <div class="stat-label">Reviews</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Agent's Properties -->
+                            <t t-if="properties">
+                                <div class="agent-properties-section">
+                                    <h3 class="section-heading">Listed Properties</h3>
+                                    <div class="properties-grid">
+                                        <t t-foreach="properties" t-as="prop">
+                                            <div class="property-card">
+                                                <div class="property-image">
+                                                    <t t-if="prop.image_ids">
+                                                        <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % prop.image_ids[0].id" 
+                                                             class="img-fluid" t-att-alt="prop.name"/>
+                                                    </t>
+                                                    <div class="property-badge">
+                                                        <span class="badge badge-success">For Sale</span>
+                                                    </div>
+                                                </div>
+                                                <div class="property-content">
+                                                    <div class="property-price">
+                                                        <span t-esc="prop.display_price"/>
+                                                    </div>
+                                                    <h4 class="property-title">
+                                                        <a t-att-href="'/property/%d' % prop.id" t-esc="prop.name"/>
+                                                    </h4>
+                                                    <div class="property-location">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <span t-esc="prop.city"/>
+                                                    </div>
+                                                    <div class="property-features">
+                                                        <span class="feature"><i class="fa fa-bed"></i> <t t-esc="prop.bedrooms"/></span>
+                                                        <span class="feature"><i class="fa fa-bath"></i> <t t-esc="prop.bathrooms"/></span>
+                                                        <span class="feature"><i class="fa fa-expand"></i> <t t-esc="prop.building_size"/></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- Contact Page Template -->
+    <template id="contact_page" name="Contact Page">
+        <t t-call="website.layout">
+            <t t-set="title">Contact Us | Ghana Real Estate</t>
+            
+            <!-- Hero -->
+            <div class="contact-hero">
+                <div class="container">
+                    <h1>Contact Us</h1>
+                    <p>Get in touch with our expert team</p>
+                </div>
+            </div>
+
+            <section class="contact-section section">
+                <div class="container">
+                    <div class="row">
+                        <!-- Contact Info -->
+                        <div class="col-lg-4">
+                            <div class="contact-info-card">
+                                <h3 class="card-title">Get In Touch</h3>
+                                <p class="card-description">
+                                    Have questions? We're here to help. Contact us through any of the channels below.
+                                </p>
+                                
+                                <div class="contact-items">
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fa fa-map-marker"></i>
+                                        </div>
+                                        <div class="contact-content">
+                                            <h4>Address</h4>
+                                            <p>Accra, Ghana</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <div class="contact-content">
+                                            <h4>Phone</h4>
+                                            <p>+233 30 123 4567</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <div class="contact-content">
+                                            <h4>Email</h4>
+                                            <p>info@ghanarealestate.com</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        <div class="contact-content">
+                                            <h4>Working Hours</h4>
+                                            <p>Mon - Fri: 8:00 AM - 6:00 PM</p>
+                                            <p>Sat: 9:00 AM - 1:00 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="social-links">
+                                    <a href="#" class="social-link"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <div class="col-lg-8">
+                            <div class="contact-form-wrapper">
+                                <h3 class="form-title">Send Us a Message</h3>
+                                <form action="/contact/submit" method="post" class="contact-form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Your Name *</label>
+                                                <input type="text" name="name" class="form-control" required=""/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Your Email *</label>
+                                                <input type="email" name="email" class="form-control" required=""/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Phone Number *</label>
+                                                <input type="tel" name="phone" class="form-control" required=""/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Subject</label>
+                                                <select name="subject" class="form-control">
+                                                    <option value="general">General Inquiry</option>
+                                                    <option value="property">Property Inquiry</option>
+                                                    <option value="viewing">Schedule Viewing</option>
+                                                    <option value="valuation">Property Valuation</option>
+                                                    <option value="partnership">Partnership</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Message *</label>
+                                                <textarea name="message" class="form-control" rows="5" required=""></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fa fa-send"></i> Send Message
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map Section -->
+            <section class="map-section">
+                <div class="map-placeholder">
+                    <i class="fa fa-map-marker"></i>
+                    <p>Interactive Map</p>
+                    <p class="text-muted">Ghana Real Estate Office</p>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- About Page Template -->
+    <template id="about_page" name="About Page">
+        <t t-call="website.layout">
+            <t t-set="title">About Us | Ghana Real Estate</t>
+            
+            <!-- Hero -->
+            <div class="about-hero">
+                <div class="container">
+                    <h1>About Ghana Real Estate</h1>
+                    <p>Your trusted partner in Ghana's real estate market since 2014</p>
+                </div>
+            </div>
+
+            <section class="about-content-section section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="about-images">
+                                <img src="/ghana_real_estate/static/src/images/about-1.jpg" class="img-fluid main-image" alt="About Us"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="about-text">
+                                <span class="section-tag">Who We Are</span>
+                                <h2 class="section-title">Leading Real Estate Company in Ghana</h2>
+                                <p>
+                                    Ghana Real Estate is the premier real estate company in Ghana, dedicated to 
+                                    helping clients find their perfect properties. With over 10 years of experience 
+                                    in the Ghanaian market, we've established ourselves as the trusted choice for 
+                                    property buyers, sellers, and renters.
+                                </p>
+                                <p>
+                                    Our team of experienced professionals combines local expertise with international 
+                                    standards to deliver exceptional service. Whether you're looking for residential 
+                                    properties, commercial spaces, or investment opportunities, we're here to guide 
+                                    you every step of the way.
+                                </p>
+                                
+                                <div class="about-features">
+                                    <div class="feature-item">
+                                        <i class="fa fa-check-circle"></i>
+                                        <span>Extensive property portfolio</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-check-circle"></i>
+                                        <span>Expert local agents</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-check-circle"></i>
+                                        <span>Secure transactions</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-check-circle"></i>
+                                        <span>24/7 customer support</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mission Vision -->
+            <section class="mission-section section bg-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mission-card">
+                                <i class="fa fa-eye"></i>
+                                <h3>Our Vision</h3>
+                                <p>To be the most trusted and preferred real estate partner in Ghana, setting the standard for excellence in property services.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mission-card">
+                                <i class="fa fa-bullseye"></i>
+                                <h3>Our Mission</h3>
+                                <p>To provide exceptional real estate services that exceed client expectations while maintaining the highest standards of integrity and professionalism.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mission-card">
+                                <i class="fa fa-heart"></i>
+                                <h3>Our Values</h3>
+                                <p>Integrity, professionalism, client-focus, transparency, and continuous improvement guide everything we do.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- Thank You Pages -->
+    <template id="inquiry_thank_you" name="Inquiry Thank You">
+        <t t-call="website.layout">
+            <div class="thank-you-page">
+                <div class="container">
+                    <div class="thank-you-content">
+                        <div class="success-icon">
+                            <i class="fa fa-check-circle"></i>
+                        </div>
+                        <h1>Thank You!</h1>
+                        <p>Your inquiry has been sent successfully. Our team will get back to you within 24 hours.</p>
+                        <a href="/" class="btn btn-primary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="viewing_scheduled" name="Viewing Scheduled">
+        <t t-call="website.layout">
+            <div class="thank-you-page">
+                <div class="container">
+                    <div class="thank-you-content">
+                        <div class="success-icon">
+                            <i class="fa fa-calendar-check-o"></i>
+                        </div>
+                        <h1>Viewing Scheduled!</h1>
+                        <p>We've received your viewing request. Check your email for confirmation details.</p>
+                        <a href="/" class="btn btn-primary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="callback_confirmed" name="Callback Confirmed">
+        <t t-call="website.layout">
+            <div class="thank-you-page">
+                <div class="container">
+                    <div class="thank-you-content">
+                        <div class="success-icon">
+                            <i class="fa fa-phone-square"></i>
+                        </div>
+                        <h1>Callback Requested!</h1>
+                        <p>We'll call you back at your preferred time. Thank you for choosing us!</p>
+                        <a href="/" class="btn btn-primary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

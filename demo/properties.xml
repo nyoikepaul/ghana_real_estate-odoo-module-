@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Property Types -->
+    <record id="property_type_house" model="ghana_real_estate.property.type">
+        <field name="name">House</field>
+        <field name="code">house</field>
+        <field name="icon">fa-home</field>
+        <field name="sequence">1</field>
+    </record>
+    
+    <record id="property_type_apartment" model="ghana_real_estate.property.type">
+        <field name="name">Apartment</field>
+        <field name="code">apartment</field>
+        <field name="icon">fa-building</field>
+        <field name="sequence">2</field>
+    </record>
+    
+    <record id="property_type_villa" model="ghana_real_estate.property.type">
+        <field name="name">Villa</field>
+        <field name="code">villa</field>
+        <field name="icon">fa-university</field>
+        <field name="sequence">3</field>
+    </record>
+    
+    <record id="property_type_land" model="ghana_real_estate.property.type">
+        <field name="name">Land</field>
+        <field name="code">land</field>
+        <field name="icon">fa-globe</field>
+        <field name="sequence">4</field>
+    </record>
+    
+    <record id="property_type_commercial" model="ghana_real_estate.property.type">
+        <field name="name">Commercial</field>
+        <field name="code">commercial</field>
+        <field name="icon">fa-briefcase</field>
+        <field name="sequence">5</field>
+    </record>
+    
+    <record id="property_type_office" model="ghana_real_estate.property.type">
+        <field name="name">Office</field>
+        <field name="code">office</field>
+        <field name="icon">fa-desktop</field>
+        <field name="sequence">6</field>
+    </record>
+
+    <!-- Demo Locations -->
+    <record id="location_greater_accra" model="ghana_real_estate.location">
+        <field name="name">Greater Accra</field>
+        <field name="code">greater_accra</field>
+        <field name="capital">Accra</field>
+        <field name="sequence">1</field>
+    </record>
+    
+    <record id="location_ashanti" model="ghana_real_estate.location">
+        <field name="name">Ashanti Region</field>
+        <field name="code">ashanti</field>
+        <field name="capital">Kumasi</field>
+        <field name="sequence">2</field>
+    </record>
+    
+    <record id="location_central" model="ghana_real_estate.location">
+        <field name="name">Central Region</field>
+        <field name="code">central</field>
+        <field name="capital">Cape Coast</field>
+        <field name="sequence">3</field>
+    </record>
+    
+    <record id="location_western" model="ghana_real_estate.location">
+        <field name="name">Western Region</field>
+        <field name="code">western</field>
+        <field name="capital">Sekondi-Takoradi</field>
+        <field name="sequence">4</field>
+    </record>
+    
+    <record id="location_eastern" model="ghana_real_estate.location">
+        <field name="name">Eastern Region</field>
+        <field name="code">eastern</field>
+        <field name="capital">Koforidua</field>
+        <field name="sequence">5</field>
+    </record>
+
+    <!-- Demo Agents -->
+    <record id="agent_john_doe" model="ghana_real_estate.agent">
+        <field name="name">John Doe</field>
+        <field name="title">Senior Real Estate Agent</field>
+        <field name="license_number">GRE-2024-001</field>
+        <field name="phone">+233 24 123 4567</field>
+        <field name="email">john.doe@ghanarealestate.com</field>
+        <field name="years_experience">10</field>
+        <field name="client_rating">4.8</field>
+        <field name="properties_sold">150</field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">1</field>
+    </record>
+    
+    <record id="agent_jane_smith" model="ghana_real_estate.agent">
+        <field name="name">Jane Smith</field>
+        <field name="title">Property Consultant</field>
+        <field name="license_number">GRE-2024-002</field>
+        <field name="phone">+233 24 234 5678</field>
+        <field name="email">jane.smith@ghanarealestate.com</field>
+        <field name="years_experience">7</field>
+        <field name="client_rating">4.6</field>
+        <field name="properties_sold">95</field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">2</field>
+    </record>
+    
+    <record id="agent_michael_osei" model="ghana_real_estate.agent">
+        <field name="name">Michael Osei</field>
+        <field name="title">Investment Specialist</field>
+        <field name="license_number">GRE-2024-003</field>
+        <field name="phone">+233 24 345 6789</field>
+        <field name="email">michael.osei@ghanarealestate.com</field>
+        <field name="years_experience">12</field>
+        <field name="client_rating">4.9</field>
+        <field name="properties_sold">200</field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <!-- Demo Properties -->
+    <record id="property_1" model="ghana_real_estate.property">
+        <field name="name">Luxury 5-Bedroom Villa in Cantonments</field>
+        <field name="description"><p>Stunning luxury villa in the heart of Cantonments, Accra. This exquisite property features modern architecture, spacious interiors, and premium finishes throughout.</p>
+        <ul>
+            <li>5 Spacious bedrooms with en-suite bathrooms</li>
+            <li>Open plan living and dining area</li>
+            <li>Fully fitted kitchen with appliances</li>
+            <li>Swimming pool and landscaped garden</li>
+            <li>24/7 security and gated community</li>
+        </ul></field>
+        <field name="property_type_id" ref="property_type_villa"/>
+        <field name="state">available</field>
+        <field name="transaction_type">sale</field>
+        <field name="location_id" ref="location_greater_accra"/>
+        <field name="city">Accra</field>
+        <field name="address">Cantonments, Accra</field>
+        <field name="price">3500000</field>
+        <field name="bedrooms">5</field>
+        <field name="bathrooms">6</field>
+        <field name="floors">2</field>
+        <field name="land_size">12000</field>
+        <field name="building_size">4500</field>
+        <field name="agent_id" ref="agent_michael_osei"/>
+        <field name="website_published">True</field>
+        <field name="featured">True</field>
+        <field name="spotlight">True</field>
+        <field name="year_built">2020</field>
+        <field name="condition">new</field>
+        <field name="furnished">True</field>
+        <field name="parking_spaces">4</field>
+        <field name="sequence">1</field>
+    </record>
+    
+    <record id="property_2" model="ghana_real_estate.property">
+        <field name="name">Modern 3-Bedroom Apartment in East Legon</field>
+        <field name="description"><p>Contemporary apartment living in East Legon. This well-designed apartment offers comfort, style, and convenience in one of Accra's most sought-after neighborhoods.</p>
+        <ul>
+            <li>3 Modern bedrooms with built-in wardrobes</li>
+            <li>Open concept living and kitchen</li>
+            <li>Balcony with city views</li>
+            <li>Elevator access and parking</li>
+            <li>Close to shopping and schools</li>
+        </ul></field>
+        <field name="property_type_id" ref="property_type_apartment"/>
+        <field name="state">available</field>
+        <field name="transaction_type">sale</field>
+        <field name="location_id" ref="location_greater_accra"/>
+        <field name="city">Accra</field>
+        <field name="address">East Legon, Accra</field>
+        <field name="price">850000</field>
+        <field name="bedrooms">3</field>
+        <field name="bathrooms">3</field>
+        <field name="floors">1</field>
+        <field name="land_size">0</field>
+        <field name="building_size">1800</field>
+        <field name="agent_id" ref="agent_john_doe"/>
+        <field name="website_published">True</field>
+        <field name="featured">True</field>
+        <field name="year_built">2022</field>
+        <field name="condition">new</field>
+        <field name="furnished">False</field>
+        <field name="parking_spaces">2</field>
+        <field name="sequence">2</field>
+    </record>
+    
+    <record id="property_3" model="ghana_real_estate.property">
+        <field name="name">4-Bedroom Family Home in Kumasi</field>
+        <field name="description"><p>Beautiful family home in a quiet neighborhood of Kumasi. Perfect for those seeking space and comfort in Ghana's second-largest city.</p>
+        <ul>
+            <li>4 Spacious bedrooms</li>
+            <li>Large living and dining area</li>
+            <li>Modern kitchen</li>
+            <li>Backyard and garage</li>
+            <li>Good neighborhood</li>
+        </ul></field>
+        <field name="property_type_id" ref="property_type_house"/>
+        <field name="state">available</field>
+        <field name="transaction_type">sale</field>
+        <field name="location_id" ref="location_ashanti"/>
+        <field name="city">Kumasi</field>
+        <field name="address">Asokwa, Kumasi</field>
+        <field name="price">450000</field>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">3</field>
+        <field name="floors">2</field>
+        <field name="land_size">8000</field>
+        <field name="building_size">2500</field>
+        <field name="agent_id" ref="agent_jane_smith"/>
+        <field name="website_published">True</field>
+        <field name="featured">True</field>
+        <field name="year_built">2018</field>
+        <field name="condition">good</field>
+        <field name="furnished">False</field>
+        <field name="parking_spaces">2</field>
+        <field name="sequence">3</field>
+    </record>
+    
+    <record id="property_4" model="ghana_real_estate.property">
+        <field name="name">Befront Plot in Tema</field>
+        <field name="description"><p>Prime commercial land in Tema's industrial area. Ideal for business development or investment.</p></field>
+        <field name="property_type_id" ref="property_type_land"/>
+        <field name="state">available</field>
+        <field name="transaction_type">sale</field>
+        <field name="location_id" ref="location_greater_accra"/>
+        <field name="city">Tema</field>
+        <field name="address">Tema Community 1</field>
+        <field name="price">2500000</field>
+        <field name="bedrooms">0</field>
+        <field name="bathrooms">0</field>
+        <field name="floors">0</field>
+        <field name="land_size">50000</field>
+        <field name="building_size">0</field>
+        <field name="agent_id" ref="agent_michael_osei"/>
+        <field name="website_published">True</field>
+        <field name="featured">False</field>
+        <field name="year_built"></field>
+        <field name="condition"></field>
+        <field name="furnished">False</field>
+        <field name="parking_spaces">0</field>
+        <field name="sequence">4</field>
+    </record>
+    
+    <record id="property_5" model="ghana_real_estate.property">
+        <field name="name">Executive Office Space in Accra</field>
+        <field name="description"><p>Premium office space in central Accra. Perfect for businesses looking for a prestigious location.</p></field>
+        <field name="property_type_id" ref="property_type_office"/>
+        <field name="state">available</field>
+        <field name="transaction_type">rent</field>
+        <field name="location_id" ref="location_greater_accra"/>
+        <field name="city">Accra</field>
+        <field name="address">Airport Residential Area</field>
+        <field name="price">15000</field>
+        <field name="bedrooms">0</field>
+        <field name="bathrooms">2</field>
+        <field name="floors">1</field>
+        <field name="land_size">0</field>
+        <field name="building_size">2000</field>
+        <field name="agent_id" ref="agent_john_doe"/>
+        <field name="website_published">True</field>
+        <field name="featured">True</field>
+        <field name="year_built">2021</field>
+        <field name="condition">excellent</field>
+        <field name="furnished">False</field>
+        <field name="parking_spaces">10</field>
+        <field name="sequence">5</field>
+    </record>
+    
+    <record id="property_6" model="ghana_real_estate.property">
+        <field name="name">Beachfront Villa in Cape Coast</field>
+        <field name="description"><p>Stunning beachfront property with panoramic ocean views. Perfect for luxury living or vacation home.</p></field>
+        <field name="property_type_id" ref="property_type_villa"/>
+        <field name="state">available</field>
+        <field name="transaction_type">sale</field>
+        <field name="location_id" ref="location_central"/>
+        <field name="city">Cape Coast</field>
+        <field name="address">Elmina Road, Cape Coast</field>
+        <field name="price">2800000</field>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">4</field>
+        <field name="floors">2</field>
+        <field name="land_size">15000</field>
+        <field name="building_size">3500</field>
+        <field name="agent_id" ref="agent_jane_smith"/>
+        <field name="website_published">True</field>
+        <field name="featured">True</field>
+        <field name="spotlight">True</field>
+        <field name="year_built">2019</field>
+        <field name="condition">excellent</field>
+        <field name="furnished">True</field>
+        <field name="parking_spaces">3</field>
+        <field name="sequence">6</field>
+    </record>
+
+    <!-- Demo Features -->
+    <record id="feature_swimming_pool" model="ghana_real_estate.property.feature">
+        <field name="name">Swimming Pool</field>
+        <field name="icon">fa-swimming-pool</field>
+        <field name="category">outdoor</field>
+    </record>
+    
+    <record id="feature_garden" model="ghana_real_estate.property.feature">
+        <field name="name">Garden</field>
+        <field name="icon">fa-leaf</field>
+        <field name="category">outdoor</field>
+    </record>
+    
+    <record id="feature_security" model="ghana_real_estate.property.feature">
+        <field name="name">24/7 Security</field>
+        <field name="icon">fa-shield</field>
+        <field name="category">security</field>
+    </record>
+    
+    <record id="feature_ac" model="ghana_real_estate.property.feature">
+        <field name="name">Air Conditioning</field>
+        <field name="icon">fa-snowflake-o</field>
+        <field name="category">indoor</field>
+    </record>
+    
+    <record id="feature_parking" model="ghana_real_estate.property.feature">
+        <field name="name">Parking</field>
+        <field name="icon">fa-car</field>
+        <field name="category">outdoor</field>
+    </record>
+    
+    <record id="feature_gym" model="ghana_real_estate.property.feature">
+        <field name="name">Gym</field>
+        <field name="icon">fa-heartbeat</field>
+        <field name="category">eco</field>
+    </record>
+</odoo>

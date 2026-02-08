@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property Detail Template -->
+    <template id="property_detail" name="Property Detail">
+        <t t-call="website.layout">
+            <t t-set="title">%s | Ghana Real Estate</t> % (property.name if property else 'Property')
+            
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-wrapper">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/properties">Properties</a></li>
+                            <li class="breadcrumb-item active" t-esc="property.name"/>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Property Detail Section -->
+            <section class="property-detail-section">
+                <div class="container">
+                    <div class="row">
+                        <!-- Main Content -->
+                        <div class="col-lg-8">
+                            <!-- Property Gallery -->
+                            <div class="property-gallery">
+                                <div class="main-image">
+                                    <t t-if="property.image_ids">
+                                        <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % property.image_ids[0].id" 
+                                             class="img-fluid" t-att-alt="property.name" id="main-image"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-image-placeholder large">
+                                            <i class="fa fa-home"></i>
+                                        </div>
+                                    </t>
+                                    <div class="gallery-badges">
+                                        <span t-att-class="'badge badge-%s' % ('success' if property.transaction_type == 'sale' else 'info')">
+                                            <t t-if="property.transaction_type == 'sale'">For Sale</t>
+                                            <t t-if="property.transaction_type == 'rent'">For Rent</t>
+                                            <t t-if="property.transaction_type == 'lease'">For Lease</t>
+                                        </span>
+                                        <t t-if="property.featured">
+                                            <span class="badge badge-warning">Featured</span>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="thumbnail-grid">
+                                    <t t-foreach="property.image_ids[:6]" t-as="img">
+                                        <div class="thumbnail" t-att-data-image="'/web/image/ghana_real_estate.property.image/%s/image' % img.id">
+                                            <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % img.id" 
+                                                 class="img-fluid" alt=""/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <!-- Property Info -->
+                            <div class="property-info-card">
+                                <div class="property-header">
+                                    <div class="property-price-main">
+                                        <span class="price-value" t-esc="property.display_price"/>
+                                        <t t-if="property.transaction_type == 'rent'">
+                                            <span class="price-period">/month</span>
+                                        </t>
+                                    </div>
+                                    <div class="property-meta">
+                                        <span class="meta-item">
+                                            <i class="fa fa-eye"></i>
+                                            <t t-esc="property.view_count or 0"/> Views
+                                        </span>
+                                        <span class="meta-item">
+                                            <i class="fa fa-calendar"></i>
+                                            <t t-esc="property.create_date.strftime('%b %d, %Y')"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <h1 class="property-title" t-esc="property.name"/>
+                                <div class="property-location">
+                                    <i class="fa fa-map-marker"></i>
+                                    <span t-esc="property.address"/>
+                                    <span class="separator">|</span>
+                                    <span t-esc="property.city"/>, <span t-esc="property.location_id.name"/>
+                                </div>
+                                
+                                <div class="property-features-grid">
+                                    <div class="feature-item">
+                                        <i class="fa fa-bed"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.bedrooms"/>
+                                            <span class="feature-label">Bedrooms</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-bath"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.bathrooms"/>
+                                            <span class="feature-label">Bathrooms</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-expand"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.building_size"/>
+                                            <span class="feature-label">Sq Ft</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-car"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.parking_spaces"/>
+                                            <span class="feature-label">Parking</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-home"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.floors"/>
+                                            <span class="feature-label">Floors</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fa fa-calendar"></i>
+                                        <div class="feature-info">
+                                            <span class="feature-value" t-esc="property.year_built or 'N/A'"/>
+                                            <span class="feature-label">Year Built</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Property Description -->
+                            <div class="property-section">
+                                <h3 class="section-heading">Description</h3>
+                                <div class="property-description" t-raw="property.description"/>
+                            </div>
+
+                            <!-- Property Features -->
+                            <div class="property-section">
+                                <h3 class="section-heading">Features & Amenities</h3>
+                                <div class="features-grid">
+                                    <t t-foreach="property.feature_ids" t-as="feature">
+                                        <div class="feature-tag">
+                                            <i t-att-class="'fa %s' % feature.icon"/>
+                                            <span t-esc="feature.name"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <!-- Property Details -->
+                            <div class="property-section">
+                                <h3 class="section-heading">Property Details</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Property ID:</span>
+                                        <span class="detail-value" t-esc="property.property_code"/>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Property Type:</span>
+                                        <span class="detail-value" t-esc="property.property_type_id.name"/>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Transaction Type:</span>
+                                        <span class="detail-value">
+                                            <t t-if="property.transaction_type == 'sale'">For Sale</t>
+                                            <t t-if="property.transaction_type == 'rent'">For Rent</t>
+                                            <t t-if="property.transaction_type == 'lease'">For Lease</t>
+                                        </span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Land Size:</span>
+                                        <span class="detail-value" t-esc="property.land_size"/> sq ft</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Building Size:</span>
+                                        <span class="detail-value" t-esc="property.building_size"/> sq ft</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Condition:</span>
+                                        <span class="detail-value" t-esc="property.condition or 'N/A'"/>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Furnished:</span>
+                                        <span class="detail-value">
+                                            <t t-if="property.furnished">Yes</t>
+                                            <t t-else="">No</t>
+                                        </span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Pets Allowed:</span>
+                                        <span class="detail-value">
+                                            <t t-if="property.pets_allowed">Yes</t>
+                                            <t t-else="">No</t>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Map Section -->
+                            <div class="property-section">
+                                <h3 class="section-heading">Location</h3>
+                                <div class="property-map" id="property-map">
+                                    <!-- Map placeholder - integrate with Google Maps -->
+                                    <div class="map-placeholder">
+                                        <i class="fa fa-map-marker"></i>
+                                        <p>Map integration available</p>
+                                        <p class="text-muted" t-esc="property.address"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="col-lg-4">
+                            <!-- Agent Card -->
+                            <div class="agent-card sidebar-card">
+                                <div class="agent-header">
+                                    <div class="agent-photo">
+                                        <t t-if="property.agent_id.photo">
+                                            <img t-att-src="'/web/image/ghana_real_estate.agent/%d/photo' % property.agent_id.id" 
+                                                 class="img-fluid rounded-circle" t-att-alt="property.agent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="agent-placeholder">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="agent-info">
+                                        <h4 t-esc="property.agent_id.name"/>
+                                        <p class="agent-title" t-esc="property.agent_id.title"/>
+                                    </div>
+                                </div>
+                                <div class="agent-contact-info">
+                                    <a t-att-href="'tel:%s' % property.agent_id.phone" class="contact-item">
+                                        <i class="fa fa-phone"></i>
+                                        <span t-esc="property.agent_id.phone"/>
+                                    </a>
+                                    <a t-att-href="'mailto:%s' % property.agent_id.email" class="contact-item">
+                                        <i class="fa fa-envelope"></i>
+                                        <span t-esc="property.agent_id.email"/>
+                                    </a>
+                                </div>
+                                <div class="agent-actions">
+                                    <a t-att-href="'/agent/%d' % property.agent_id.id" class="btn btn-outline-primary btn-block">
+                                        View Agent Profile
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Inquiry Form -->
+                            <div class="inquiry-form-card sidebar-card">
+                                <h4 class="card-title">Send Inquiry</h4>
+                                <form action="/property/inquiry" method="post">
+                                    <input type="hidden" name="property_id" t-att-value="property.id"/>
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" placeholder="Your Email *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="message" class="form-control" rows="4" placeholder="Your Message"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fa fa-send"></i> Send Inquiry
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Schedule Viewing -->
+                            <div class="viewing-card sidebar-card">
+                                <h4 class="card-title">Schedule Viewing</h4>
+                                <form action="/property/schedule-viewing" method="post">
+                                    <input type="hidden" name="property_id" t-att-value="property.id"/>
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" placeholder="Your Email *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="date" name="preferred_date" class="form-control" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="message" class="form-control" rows="3" placeholder="Additional Notes"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        <i class="fa fa-calendar-check-o"></i> Schedule Now
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Request Callback -->
+                            <div class="callback-card sidebar-card">
+                                <h4 class="card-title">Request Callback</h4>
+                                <form action="/property/request-callback" method="post">
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="preferred_time" class="form-control">
+                                            <option value="">Preferred Time</option>
+                                            <option value="morning">Morning (8AM - 12PM)</option>
+                                            <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                            <option value="evening">Evening (4PM - 6PM)</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-info btn-block">
+                                        <i class="fa fa-phone"></i> Request Callback
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Share -->
+                            <div class="share-card sidebar-card">
+                                <h4 class="card-title">Share This Property</h4>
+                                <div class="share-buttons">
+                                    <a t-att-href="'https://www.facebook.com/sharer/sharer.php?u=%s' % request.httprequest.url" 
+                                       class="share-btn facebook" target="_blank">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    <a t-att-href="'https://twitter.com/intent/tweet?url=%s' % request.httprequest.url" 
+                                       class="share-btn twitter" target="_blank">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a t-att-href="'https://wa.me/?text=%s' % request.httprequest.url" 
+                                       class="share-btn whatsapp" target="_blank">
+                                        <i class="fa fa-whatsapp"></i>
+                                    </a>
+                                    <a href="mailto:?subject=Check out this property&body=Check out this property: %s" 
+                                       class="share-btn email">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Similar Properties -->
+            <t t-if="similar_properties">
+                <section class="similar-properties-section section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Similar Properties</h2>
+                        </div>
+                        <div class="properties-grid">
+                            <t t-foreach="similar_properties" t-as="prop">
+                                <div class="property-card">
+                                    <!-- Same property card structure as homepage -->
+                                    <div class="property-image">
+                                        <t t-if="prop.image_ids">
+                                            <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % prop.image_ids[0].id" 
+                                                 class="img-fluid" t-att-alt="prop.name"/>
+                                        </t>
+                                        <div class="property-badge">
+                                            <span t-att-class="'badge badge-%s' % ('success' if prop.transaction_type == 'sale' else 'info')">
+                                                <t t-if="prop.transaction_type == 'sale'">For Sale</t>
+                                                <t t-if="prop.transaction_type == 'rent'">For Rent</t>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="property-content">
+                                        <div class="property-price">
+                                            <span t-esc="prop.display_price"/>
+                                        </div>
+                                        <h3 class="property-title">
+                                            <a t-att-href="'/property/%d' % prop.id" t-esc="prop.name"/>
+                                        </h3>
+                                        <div class="property-location">
+                                            <i class="fa fa-map-marker"></i>
+                                            <span t-esc="prop.city"/>
+                                        </div>
+                                        <div class="property-features">
+                                            <span class="feature"><i class="fa fa-bed"></i> <t t-esc="prop.bedrooms"/></span>
+                                            <span class="feature"><i class="fa fa-bath"></i> <t t-esc="prop.bathrooms"/></span>
+                                            <span class="feature"><i class="fa fa-expand"></i> <t t-esc="prop.building_size"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </t>
+    </template>
+
+    <!-- Property Listing Template -->
+    <template id="property_listing" name="Property Listing">
+        <t t-call="website.layout">
+            <t t-set="title">Properties | Ghana Real Estate</t>
+            
+            <div class="breadcrumb-wrapper">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Properties</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <section class="properties-listing-section section">
+                <div class="container">
+                    <div class="row">
+                        <!-- Sidebar Filters -->
+                        <div class="col-lg-3">
+                            <div class="filters-sidebar">
+                                <h4 class="sidebar-title">Filters</h4>
+                                <form action="/properties" method="get" id="filter-form">
+                                    <t t-if="transaction_type">
+                                        <input type="hidden" name="transaction_type" t-att-value="transaction_type"/>
+                                    </t>
+                                    
+                                    <div class="filter-group">
+                                        <label class="filter-label">Search</label>
+                                        <input type="text" name="search" class="form-control" placeholder="Search properties..."/>
+                                    </div>
+                                    
+                                    <div class="filter-group">
+                                        <label class="filter-label">Property Type</label>
+                                        <select name="property_type" class="form-control">
+                                            <option value="">All Types</option>
+                                            <t t-foreach="property_types or []" t-as="pt">
+                                                <option t-att-value="pt.id" t-esc="pt.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="filter-group">
+                                        <label class="filter-label">Price Range</label>
+                                        <div class="price-inputs">
+                                            <input type="number" name="min_price" class="form-control" placeholder="Min"/>
+                                            <span class="price-separator">-</span>
+                                            <input type="number" name="max_price" class="form-control" placeholder="Max"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="filter-group">
+                                        <label class="filter-label">Bedrooms</label>
+                                        <select name="bedrooms" class="form-control">
+                                            <option value="any">Any</option>
+                                            <option value="1">1+</option>
+                                            <option value="2">2+</option>
+                                            <option value="3">3+</option>
+                                            <option value="4">4+</option>
+                                            <option value="5">5+</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="filter-group">
+                                        <label class="filter-label">Bathrooms</label>
+                                        <select name="bathrooms" class="form-control">
+                                            <option value="any">Any</option>
+                                            <option value="1">1+</option>
+                                            <option value="2">2+</option>
+                                            <option value="3">3+</option>
+                                            <option value="4">4+</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        Apply Filters
+                                    </button>
+                                    <a href="/properties" class="btn btn-outline-secondary btn-block">
+                                        Clear Filters
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Property Grid -->
+                        <div class="col-lg-9">
+                            <div class="listing-header">
+                                <div class="results-count">
+                                    <span t-esc="len(properties)"/> Properties Found
+                                </div>
+                                <div class="listing-controls">
+                                    <select name="sort" class="form-control sort-select" onchange="this.form.submit()">
+                                        <option value="create_date desc">Newest First</option>
+                                        <option value="price asc">Price: Low to High</option>
+                                        <option value="price desc">Price: High to Low</option>
+                                        <option value="name asc">Name: A to Z</option>
+                                    </select>
+                                    <div class="view-toggles">
+                                        <button class="view-toggle active" data-view="grid"><i class="fa fa-th"></i></button>
+                                        <button class="view-toggle" data-view="list"><i class="fa fa-list"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="properties-grid" id="properties-container">
+                                <t t-foreach="properties" t-as="property">
+                                    <div class="property-card">
+                                        <div class="property-image">
+                                            <t t-if="property.image_ids">
+                                                <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % property.image_ids[0].id" 
+                                                     class="img-fluid" t-att-alt="property.name"/>
+                                            </t>
+                                            <div class="property-badge">
+                                                <span t-att-class="'badge badge-%s' % ('success' if property.transaction_type == 'sale' else 'info')">
+                                                    <t t-if="property.transaction_type == 'sale'">For Sale</t>
+                                                    <t t-if="property.transaction_type == 'rent'">For Rent</t>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="property-content">
+                                            <div class="property-price">
+                                                <span t-esc="property.display_price"/>
+                                                <t t-if="property.transaction_type == 'rent'">
+                                                    <span class="price-period">/month</span>
+                                                </t>
+                                            </div>
+                                            <h3 class="property-title">
+                                                <a t-att-href="'/property/%d' % property.id" t-esc="property.name"/>
+                                            </h3>
+                                            <div class="property-location">
+                                                <i class="fa fa-map-marker"></i>
+                                                <span t-esc="property.city"/>
+                                            </div>
+                                            <div class="property-features">
+                                                <span class="feature"><i class="fa fa-bed"></i> <t t-esc="property.bedrooms"/> Beds</span>
+                                                <span class="feature"><i class="fa fa-bath"></i> <t t-esc="property.bathrooms"/> Baths</span>
+                                                <span class="feature"><i class="fa fa-expand"></i> <t t-esc="property.building_size"/> sqft</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <!-- Pagination -->
+                            <t t-if="pager">
+                                <div class="pagination-wrapper">
+                                    <t t-call="website.pager"/>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- Property Comparison Template -->
+    <template id="property_compare" name="Compare Properties">
+        <t t-call="website.layout">
+            <t t-set="title">Compare Properties | Ghana Real Estate</t>
+            
+            <div class="breadcrumb-wrapper">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/properties">Properties</a></li>
+                            <li class="breadcrumb-item active">Compare</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <section class="compare-section section">
+                <div class="container">
+                    <h2 class="section-title text-center">Property Comparison</h2>
+                    
+                    <div class="compare-table-wrapper">
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th class="feature-column">Feature</th>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <th class="property-column">
+                                            <a t-att-href="'/property/%d' % prop.id" t-esc="prop.name"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="feature-label">Image</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td class="property-image">
+                                            <t t-if="prop.image_ids">
+                                                <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % prop.image_ids[0].id" 
+                                                     class="img-fluid" t-att-alt="prop.name"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Price</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td class="property-price">
+                                            <span t-esc="prop.display_price"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Location</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td t-esc="prop.city"/>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Bedrooms</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td t-esc="prop.bedrooms"/>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Bathrooms</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td t-esc="prop.bathrooms"/>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Size</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td><t t-esc="prop.building_size"/> sq ft</td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Type</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td t-esc="prop.property_type_id.name"/>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td class="feature-label">Actions</td>
+                                    <t t-foreach="properties" t-as="prop">
+                                        <td>
+                                            <a t-att-href="'/property/%d' % prop.id" class="btn btn-primary btn-sm">
+                                                View Details
+                                            </a>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+</odoo>

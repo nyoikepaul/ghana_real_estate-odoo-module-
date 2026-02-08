@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <!-- Property Card Template -->
+    <t t-name="ghana_real_estate.property_card">
+        <div class="property-card" t-att-data-id="property.id">
+            <div class="property-image">
+                <img t-if="property.main_image" t-att-src="property.main_image" class="img-fluid" t-att-alt="property.name"/>
+                <t t-else="">
+                    <div class="no-image-placeholder">
+                        <i class="fa fa-home"></i>
+                    </div>
+                </t>
+                <div class="property-badge">
+                    <span class="badge badge-success" t-if="property.transaction_type == 'sale'">For Sale</span>
+                    <span class="badge badge-info" t-else="">For Rent</span>
+                </div>
+                <div class="property-actions">
+                    <button class="action-btn" data-action="favorite" t-att-data-property-id="property.id">
+                        <i class="fa fa-heart"></i>
+                    </button>
+                    <button class="action-btn" data-action="compare" t-att-data-property-id="property.id">
+                        <i class="fa fa-exchange"></i>
+                    </button>
+                    <button class="action-btn" data-action="share">
+                        <i class="fa fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="property-content">
+                <div class="property-price">
+                    <span t-esc="property.display_price"/>
+                </div>
+                <h3 class="property-title">
+                    <a t-att-href="'/property/%d' % property.id" t-esc="property.name"/>
+                </h3>
+                <div class="property-location">
+                    <i class="fa fa-map-marker"></i>
+                    <span t-esc="property.city"/>
+                </div>
+                <div class="property-features">
+                    <span class="feature"><i class="fa fa-bed"></i> <t t-esc="property.bedrooms"/> Beds</span>
+                    <span class="feature"><i class="fa fa-bath"></i> <t t-esc="property.bathrooms"/> Baths</span>
+                    <span class="feature"><i class="fa fa-expand"></i> <t t-esc="property.building_size"/> sqft</span>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Agent Card Template -->
+    <t t-name="ghana_real_estate.agent_card">
+        <div class="agent-card" t-att-data-id="agent.id">
+            <div class="agent-photo">
+                <img t-if="agent.photo" t-att-src="agent.photo" class="img-fluid rounded-circle" t-att-alt="agent.name"/>
+                <t t-else="">
+                    <div class="agent-placeholder">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </t>
+            </div>
+            <div class="agent-info">
+                <h3 class="agent-name">
+                    <a t-att-href="'/agent/%d' % agent.id" t-esc="agent.name"/>
+                </h3>
+                <p class="agent-title" t-esc="agent.title"/>
+                <div class="agent-stats">
+                    <span class="stat-item">
+                        <i class="fa fa-home"></i>
+                        <t t-esc="agent.properties_count"/> Properties
+                    </span>
+                    <span class="stat-item">
+                        <i class="fa fa-star"></i>
+                        <t t-esc="agent.client_rating"/> Rating
+                    </span>
+                </div>
+                <div class="agent-contact">
+                    <a t-att-href="'tel:%s' % agent.phone" class="contact-link">
+                        <i class="fa fa-phone"></i>
+                    </a>
+                    <a t-att-href="'mailto:%s' % agent.email" class="contact-link">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                    <t t-if="agent.whatsapp">
+                        <a t-att-href="'https://wa.me/%s' % agent.whatsapp.replace('+', '').replace(' ', '')" class="contact-link" target="_blank">
+                            <i class="fa fa-whatsapp"></i>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Property Type Card -->
+    <t t-name="ghana_real_estate.type_card">
+        <a t-att-href="'/properties/type/%s' % type.code" class="type-card">
+            <div class="type-icon">
+                <i t-att-class="'fa %s' % type.icon"></i>
+            </div>
+            <h3 class="type-name" t-esc="type.name"/>
+            <span class="type-count">
+                <t t-esc="type.property_count"/> Properties
+            </span>
+        </a>
+    </t>
+
+    <!-- Location Card -->
+    <t t-name="ghana_real_estate.location_card">
+        <a t-att-href="'/properties/location/%s' % location.code" class="location-card">
+            <div class="location-image">
+                <img t-if="location.image" t-att-src="location.image" class="img-fluid" t-att-alt="location.name"/>
+                <t t-else="">
+                    <div class="location-placeholder">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                </t>
+                <div class="location-overlay">
+                    <h3 class="location-name" t-esc="location.name"/>
+                    <span class="location-count">
+                        <t t-esc="location.property_count"/> Properties
+                    </span>
+                </div>
+            </div>
+        </a>
+    </t>
+
+    <!-- Search Form Template -->
+    <t t-name="ghana_real_estate.search_form">
+        <div class="premium-search-box">
+            <div class="search-tabs">
+                <button class="search-tab active" data-tab="sale">Buy</button>
+                <button class="search-tab" data-tab="rent">Rent</button>
+                <button class="search-tab" data-tab="lease">Lease</button>
+            </div>
+            <form class="search-form" action="/properties" method="get">
+                <div class="search-fields">
+                    <div class="search-field">
+                        <i class="fa fa-map-marker"></i>
+                        <input type="text" name="location" placeholder="Enter location..." class="form-control" id="location-input"/>
+                    </div>
+                    <div class="search-field">
+                        <i class="fa fa-home"></i>
+                        <select name="property_type" class="form-control">
+                            <option value="">Property Type</option>
+                            <t t-foreach="property_types or []" t-as="pt">
+                                <option t-att-value="pt.id" t-esc="pt.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <i class="fa fa-money"></i>
+                        <select name="price_range" class="form-control">
+                            <option value="">Price Range</option>
+                            <option value="0-200000">₵0 - ₵200,000</option>
+                            <option value="200000-500000">₵200,000 - ₵500,000</option>
+                            <option value="500000-1000000">₵500,000 - ₵1,000,000</option>
+                            <option value="1000000-5000000">₵1,000,000+</option>
+                        </select>
+                    </div>
+                    <div class="search-field search-btn-field">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </t>
+
+    <!-- Inquiry Form Template -->
+    <t t-name="ghana_real_estate.inquiry_form">
+        <form action="/property/inquiry" method="post" class="inquiry-form">
+            <input type="hidden" name="property_id" t-att-value="property.id"/>
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Your Email *" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+            </div>
+            <div class="form-group">
+                <textarea name="message" class="form-control" rows="4" placeholder="Your Message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fa fa-send"></i> Send Inquiry
+            </button>
+        </form>
+    </t>
+
+    <!-- Schedule Viewing Form Template -->
+    <t t-name="ghana_real_estate.schedule_viewing_form">
+        <form action="/property/schedule-viewing" method="post" class="schedule-form">
+            <input type="hidden" name="property_id" t-att-value="property.id"/>
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Your Name *" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Your Email *" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="phone" class="form-control" placeholder="Your Phone *" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="date" name="preferred_date" class="form-control" required=""/>
+            </div>
+            <div class="form-group">
+                <textarea name="message" class="form-control" rows="3" placeholder="Additional Notes"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">
+                <i class="fa fa-calendar-check-o"></i> Schedule Now
+            </button>
+        </form>
+    </t>
+</templates>

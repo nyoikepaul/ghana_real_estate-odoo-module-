@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Premium Homepage Template -->
+    <template id="premium_homepage" name="Ghana Real Estate Premium Homepage">
+        <t t-call="website.layout">
+            <t t-set="title">Ghana Real Estate - Premium Properties in Ghana</t>
+            
+            <!-- PREMIUM HEADER SECTION -->
+            <section id="premium-header" class="premium-header">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <div class="container">
+                        <a class="navbar-brand" href="/">
+                            <span class="brand-icon">🏠</span>
+                            <span class="brand-text">
+                                <span class="brand-main">GHANA</span>
+                                <span class="brand-sub">REAL ESTATE</span>
+                            </span>
+                        </a>
+                        
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/">Home</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="propertiesDropdown" role="button" data-toggle="dropdown">
+                                        Properties
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/properties/for-sale">For Sale</a>
+                                        <a class="dropdown-item" href="/properties/for-rent">For Rent</a>
+                                        <a class="dropdown-item" href="/properties">All Properties</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/agents">Agents</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/about">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/contact">Contact</a>
+                                </li>
+                            </ul>
+                            <a href="/properties" class="btn btn-primary ml-lg-3">
+                                <i class="fa fa-search"></i> Search Property
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </section>
+
+            <!-- PREMIUM HERO SECTION -->
+            <section id="premium-hero" class="premium-hero">
+                <div class="hero-background">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="hero-title-line">Find Your Dream</span>
+                            <span class="hero-title-highlight">Property in Ghana</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Discover premium properties across Ghana's most sought-after locations
+                        </p>
+                        
+                        <!-- PREMIUM PROPERTY SEARCH -->
+                        <div class="premium-search-box">
+                            <div class="search-tabs">
+                                <button class="search-tab active" data-tab="sale">Buy</button>
+                                <button class="search-tab" data-tab="rent">Rent</button>
+                                <button class="search-tab" data-tab="lease">Lease</button>
+                            </div>
+                            <form class="search-form" action="/properties" method="get">
+                                <div class="search-fields">
+                                    <div class="search-field">
+                                        <i class="fa fa-map-marker"></i>
+                                        <input type="text" name="location" placeholder="Enter location..." class="form-control" id="location-input"/>
+                                    </div>
+                                    <div class="search-field">
+                                        <i class="fa fa-home"></i>
+                                        <select name="property_type" class="form-control">
+                                            <option value="">Property Type</option>
+                                            <t t-foreach="property_types or []" t-as="pt">
+                                                <option t-att-value="pt.id" t-esc="pt.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="search-field">
+                                        <i class="fa fa-money"></i>
+                                        <select name="price_range" class="form-control">
+                                            <option value="">Price Range</option>
+                                            <option value="0-200000">₵0 - ₵200,000</option>
+                                            <option value="200000-500000">₵200,000 - ₵500,000</option>
+                                            <option value="500000-1000000">₵500,000 - ₵1,000,000</option>
+                                            <option value="1000000-5000000">₵1,000,000+</option>
+                                        </select>
+                                    </div>
+                                    <div class="search-field search-btn-field">
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search"></i> Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" t-esc="stats.get('properties_for_sale', 0)"></span>
+                                <span class="stat-label">Properties for Sale</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" t-esc="stats.get('properties_for_rent', 0)"></span>
+                                <span class="stat-label">Properties for Rent</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" t-esc="stats.get('happy_clients', 0)"></span>
+                                <span class="stat-label">Happy Clients</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" t-esc="stats.get('years_experience', 0)"></span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURED PROPERTIES SECTION -->
+            <section id="featured-properties" class="section premium-section">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Featured Listings</span>
+                        <h2 class="section-title">Premium Properties</h2>
+                        <p class="section-subtitle">Handpicked properties that offer the best value in Ghana</p>
+                    </div>
+                    
+                    <div class="properties-grid">
+                        <t t-foreach="featured_properties or []" t-as="property">
+                            <div class="property-card">
+                                <div class="property-image">
+                                    <t t-if="property.image_ids">
+                                        <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % property.image_ids[0].id" 
+                                             class="img-fluid" t-att-alt="property.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-image-placeholder">
+                                            <i class="fa fa-home"></i>
+                                        </div>
+                                    </t>
+                                    <div class="property-badge">
+                                        <span t-att-class="'badge badge-%s' % ('success' if property.transaction_type == 'sale' else 'info')">
+                                            <t t-if="property.transaction_type == 'sale'">For Sale</t>
+                                            <t t-if="property.transaction_type == 'rent'">For Rent</t>
+                                            <t t-if="property.transaction_type == 'lease'">For Lease</t>
+                                        </span>
+                                    </div>
+                                    <div class="property-actions">
+                                        <button class="action-btn" data-toggle="tooltip" title="Add to favorites">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <button class="action-btn" data-toggle="tooltip" title="Compare">
+                                            <i class="fa fa-exchange"></i>
+                                        </button>
+                                        <button class="action-btn" data-toggle="tooltip" title="Share">
+                                            <i class="fa fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="property-content">
+                                    <div class="property-price">
+                                        <span t-esc="property.display_price"/>
+                                        <t t-if="property.transaction_type == 'rent'">
+                                            <span class="price-period">/month</span>
+                                        </t>
+                                    </div>
+                                    <h3 class="property-title">
+                                        <a t-att-href="'/property/%d' % property.id" t-esc="property.name"/>
+                                    </h3>
+                                    <div class="property-location">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span t-esc="property.city"/>, <span t-esc="property.location_id.name"/>
+                                    </div>
+                                    <div class="property-features">
+                                        <span class="feature">
+                                            <i class="fa fa-bed"></i>
+                                            <t t-esc="property.bedrooms"/> Beds
+                                        </span>
+                                        <span class="feature">
+                                            <i class="fa fa-bath"></i>
+                                            <t t-esc="property.bathrooms"/> Baths
+                                        </span>
+                                        <span class="feature">
+                                            <i class="fa fa-expand"></i>
+                                            <t t-esc="property.building_size"/> sqft
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    
+                    <div class="section-footer text-center">
+                        <a href="/properties" class="btn btn-outline-primary btn-lg">
+                            View All Properties <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROPERTY TYPES SECTION -->
+            <section id="property-types" class="section premium-section bg-light">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Browse Categories</span>
+                        <h2 class="section-title">Property Types</h2>
+                        <p class="section-subtitle">Find your perfect property type from our diverse listings</p>
+                    </div>
+                    
+                    <div class="types-grid">
+                        <t t-foreach="property_types or []" t-as="pt">
+                            <a t-att-href="'/properties/type/%s' % pt.code" class="type-card">
+                                <div class="type-icon">
+                                    <i t-att-class="'fa %s' % pt.icon"></i>
+                                </div>
+                                <h3 class="type-name" t-esc="pt.name"/>
+                                <span class="type-count">
+                                    <t t-esc="pt.property_count"/> Properties
+                                </span>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SPOTLIGHT SECTION -->
+            <section id="spotlight" class="section premium-section parallax-section">
+                <div class="parallax-background"></div>
+                <div class="container">
+                    <div class="section-header text-center text-white">
+                        <span class="section-tag">Spotlight</span>
+                        <h2 class="section-title">Exclusive Properties</h2>
+                        <p class="section-subtitle">Premium listings that deserve your attention</p>
+                    </div>
+                    
+                    <div class="spotlight-carousel owl-carousel">
+                        <t t-foreach="spotlight_properties or []" t-as="property">
+                            <div class="spotlight-card">
+                                <div class="spotlight-image">
+                                    <t t-if="property.image_ids">
+                                        <img t-att-src="'/web/image/ghana_real_estate.property.image/%s/image' % property.image_ids[0].id" 
+                                             class="img-fluid" t-att-alt="property.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-image-placeholder">
+                                            <i class="fa fa-home"></i>
+                                        </div>
+                                    </t>
+                                    <div class="spotlight-overlay">
+                                        <a t-att-href="'/property/%d' % property.id" class="btn btn-light">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="spotlight-content">
+                                    <div class="property-price text-white">
+                                        <span t-esc="property.display_price"/>
+                                    </div>
+                                    <h3 class="property-title text-white">
+                                        <a t-att-href="'/property/%d' % property.id" t-esc="property.name"/>
+                                    </h3>
+                                    <div class="property-location text-light">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span t-esc="property.city"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOCATIONS SECTION -->
+            <section id="locations" class="section premium-section">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Popular Locations</span>
+                        <h2 class="section-title">Explore Ghana</h2>
+                        <p class="section-subtitle">Properties in Ghana's most desirable regions</p>
+                    </div>
+                    
+                    <div class="locations-grid">
+                        <t t-foreach="locations[:6]" t-as="loc">
+                            <a t-att-href="'/properties/location/%s' % loc.code" class="location-card">
+                                <div class="location-image">
+                                    <t t-if="loc.image">
+                                        <img t-att-src="'/web/image/ghana_real_estate.location/%d/image' % loc.id" 
+                                             class="img-fluid" t-att-alt="loc.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="location-placeholder">
+                                            <i class="fa fa-map-marker"></i>
+                                        </div>
+                                    </t>
+                                    <div class="location-overlay">
+                                        <h3 class="location-name" t-esc="loc.name"/>
+                                        <span class="location-count">
+                                            <t t-esc="loc.property_count"/> Properties
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURED AGENTS SECTION -->
+            <section id="featured-agents" class="section premium-section bg-light">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Our Team</span>
+                        <h2 class="section-title">Featured Agents</h2>
+                        <p class="section-subtitle">Expert agents ready to help you find your dream property</p>
+                    </div>
+                    
+                    <div class="agents-grid">
+                        <t t-foreach="featured_agents or []" t-as="agent">
+                            <div class="agent-card">
+                                <div class="agent-photo">
+                                    <t t-if="agent.photo">
+                                        <img t-att-src="'/web/image/ghana_real_estate.agent/%d/photo' % agent.id" 
+                                             class="img-fluid rounded-circle" t-att-alt="agent.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="agent-placeholder">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="agent-info">
+                                    <h3 class="agent-name" t-esc="agent.name"/>
+                                    <p class="agent-title" t-esc="agent.title"/>
+                                    <div class="agent-contact">
+                                        <a t-att-href="'tel:%s' % agent.phone" class="contact-link">
+                                            <i class="fa fa-phone"></i>
+                                        </a>
+                                        <a t-att-href="'mailto:%s' % agent.email" class="contact-link">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
+                                        <t t-if="agent.whatsapp">
+                                            <a t-att-href="'https://wa.me/%s' % agent.whatsapp.replace('+', '').replace(' ', '')" 
+                                               class="contact-link" target="_blank">
+                                                <i class="fa fa-whatsapp"></i>
+                                            </a>
+                                        </t>
+                                    </div>
+                                    <div class="agent-stats">
+                                        <span class="stat">
+                                            <i class="fa fa-home"></i>
+                                            <t t-esc="agent.properties_count"/> Properties
+                                        </span>
+                                        <span class="stat">
+                                            <i class="fa fa-star"></i>
+                                            <t t-esc="agent.client_rating"/> Rating
+                                        </span>
+                                    </div>
+                                    <a t-att-href="'/agent/%d' % agent.id" class="btn btn-outline-primary btn-block">
+                                        View Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    
+                    <div class="section-footer text-center">
+                        <a href="/agents" class="btn btn-primary btn-lg">
+                            View All Agents <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WHY CHOOSE US SECTION -->
+            <section id="why-choose-us" class="section premium-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="why-choose-content">
+                                <span class="section-tag">Why Choose Us</span>
+                                <h2 class="section-title">Your Trusted Real Estate Partner in Ghana</h2>
+                                <p class="section-description">
+                                    With over 10 years of experience in Ghana's real estate market, we provide 
+                                    unparalleled service and expertise to help you find your perfect property.
+                                </p>
+                                
+                                <div class="features-list">
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h4>Extensive Property Portfolio</h4>
+                                            <p>Access to hundreds of properties across all regions of Ghana</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h4>Expert Local Agents</h4>
+                                            <p>Team of experienced agents with deep knowledge of Ghana's real estate market</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <i class="fa fa-shield"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h4>Secure Transactions</h4>
+                                            <p>Safe and transparent property transactions with legal verification</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <i class="fa fa-support"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h4>24/7 Customer Support</h4>
+                                            <p>Dedicated support team ready to assist you at any time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="why-choose-image">
+                                <img src="/ghana_real_estate/static/src/images/why-choose-us.jpg" 
+                                     class="img-fluid rounded-lg shadow-lg" alt="Why Choose Us"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TESTIMONIALS SECTION -->
+            <section id="testimonials" class="section premium-section bg-primary">
+                <div class="container">
+                    <div class="section-header text-center text-white">
+                        <span class="section-tag">Testimonials</span>
+                        <h2 class="section-title">What Our Clients Say</h2>
+                        <p class="section-subtitle">Hear from our satisfied clients about their experience</p>
+                    </div>
+                    
+                    <div class="testimonials-carousel owl-carousel">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "Excellent service! The team helped me find my dream home in Accra within my budget. 
+                                    Their professionalism and attention to detail made the entire process smooth and stress-free."
+                                </p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="author-info">
+                                    <h4>John Mensah</h4>
+                                    <span>Homeowner, Accra</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "As an investor, I needed reliable partners in Ghana's real estate market. 
+                                    Ghana Real Estate provided exceptional properties and valuable market insights. 
+                                    Highly recommended!"
+                                </p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="author-info">
+                                    <h4>Sarah Williams</h4>
+                                    <span>Property Investor</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "The rental process was seamless. Found a great apartment in Kumasi within days. 
+                                    The team's responsiveness and market knowledge impressed me greatly."
+                                </p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="author-info">
+                                    <h4>Michael Osei</h4>
+                                    <span>Renter, Kumasi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA SECTION -->
+            <section id="cta-section" class="section premium-section">
+                <div class="container">
+                    <div class="cta-box">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8">
+                                <h2 class="cta-title">Ready to Find Your Dream Property?</h2>
+                                <p class="cta-text">
+                                    Contact our expert agents today and let us help you find the perfect property in Ghana.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 text-lg-right">
+                                <a href="/contact" class="btn btn-light btn-lg">
+                                    Get in Touch <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PREMIUM FOOTER SECTION -->
+            <footer id="premium-footer" class="premium-footer">
+                <div class="footer-main">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="footer-brand">
+                                    <span class="brand-icon">🏠</span>
+                                    <span class="brand-text">
+                                        <span class="brand-main">GHANA</span>
+                                        <span class="brand-sub">REAL ESTATE</span>
+                                    </span>
+                                </div>
+                                <p class="footer-description">
+                                    Your trusted partner in Ghana's real estate market. We help you find 
+                                    the perfect property across all regions of Ghana.
+                                </p>
+                                <div class="footer-social">
+                                    <a href="#" class="social-link"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-linkedin"></i></a>
+                                    <a href="#" class="social-link"><i class="fa fa-youtube"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <h4 class="footer-title">Quick Links</h4>
+                                <ul class="footer-links">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/properties">Properties</a></li>
+                                    <li><a href="/properties/for-sale">For Sale</a></li>
+                                    <li><a href="/properties/for-rent">For Rent</a></li>
+                                    <li><a href="/agents">Agents</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2">
+                                <h4 class="footer-title">Property Types</h4>
+                                <ul class="footer-links">
+                                    <t t-foreach="property_types[:5]" t-as="pt">
+                                        <li><a t-att-href="'/properties/type/%s' % pt.code" t-esc="pt.name"/></li>
+                                    </t>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <h4 class="footer-title">Contact Us</h4>
+                                <ul class="footer-contact">
+                                    <li>
+                                        <i class="fa fa-map-marker"></i>
+                                        <span>Accra, Ghana</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-phone"></i>
+                                        <span>+233 30 123 4567</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-envelope"></i>
+                                        <span>info@ghanarealestate.com</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-clock-o"></i>
+                                        <span>Mon - Fri: 8:00 AM - 6:00 PM</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <p class="copyright">
+                                    © 2024 Ghana Real Estate. All rights reserved.
+                                </p>
+                            </div>
+                            <div class="col-md-6 text-md-right">
+                                <ul class="footer-legal">
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms of Service</a></li>
+                                    <li><a href="#">Sitemap</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </t>
+    </template>
+</odoo>

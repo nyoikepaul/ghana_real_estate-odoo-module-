@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Offices -->
+    <record id="office_accra" model="ghana_real_estate.office">
+        <field name="name">Ghana Real Estate - Accra Headquarters</field>
+        <field name="address">123 Liberation Road, Accra</field>
+        <field name="city">Accra</field>
+        <field name="region">greater_accra</field>
+        <field name="phone">+233 30 123 4567</field>
+        <field name="email">accra@ghanarealestate.com</field>
+        <field name="working_hours">Mon-Fri: 8:00 AM - 6:00 PM, Sat: 9:00 AM - 1:00 PM</field>
+        <field name="active">True</field>
+    </record>
+    
+    <record id="office_kumasi" model="ghana_real_estate.office">
+        <field name="name">Ghana Real Estate - Kumasi Branch</field>
+        <field name="address">45 Kejetia Road, Kumasi</field>
+        <field name="city">Kumasi</field>
+        <field name="region">ashanti</field>
+        <field name="phone">+233 32 234 5678</field>
+        <field name="email">kumasi@ghanarealestate.com</field>
+        <field name="working_hours">Mon-Fri: 8:00 AM - 6:00 PM, Sat: 9:00 AM - 1:00 PM</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Demo Agents with Office Assignment -->
+    <record id="agent_david_mensah" model="ghana_real_estate.agent">
+        <field name="name">David Mensah</field>
+        <field name="title">Senior Property Consultant</field>
+        <field name="license_number">GRE-2024-004</field>
+        <field name="phone">+233 24 456 7890</field>
+        <field name="email">david.mensah@ghanarealestate.com</field>
+        <field name="whatsapp">+233244567890</field>
+        <field name="facebook">https://facebook.com/davidmensah</field>
+        <field name="linkedin">https://linkedin.com/in/davidmensah</field>
+        <field name="office_id" ref="office_accra"/>
+        <field name="years_experience">8</field>
+        <field name="client_rating">4.7</field>
+        <field name="properties_sold">120</field>
+        <field name="properties_rented">45</field>
+        <field name="review_count">89</field>
+        <field name="bio"><p>David is a senior property consultant with over 8 years of experience in Ghana's real estate market. Specializing in luxury properties in Accra, he has helped numerous clients find their dream homes.</p></field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">4</field>
+        <field name="active">True</field>
+    </record>
+    
+    <record id="agent_emma_adowah" model="ghana_real_estate.agent">
+        <field name="name">Emma Adom</field>
+        <field name="title">Residential Property Specialist</field>
+        <field name="license_number">GRE-2024-005</field>
+        <field name="phone">+233 24 567 8901</field>
+        <field name="email">emma.adom@ghanarealestate.com</field>
+        <field name="whatsapp">+233245678901</field>
+        <field name="instagram">https://instagram.com/emmaadom_realty</field>
+        <field name="office_id" ref="office_accra"/>
+        <field name="years_experience">5</field>
+        <field name="client_rating">4.5</field>
+        <field name="properties_sold">75</field>
+        <field name="properties_rented">60</field>
+        <field name="review_count">52</field>
+        <field name="bio"><p>Emma specializes in residential properties, helping families find perfect homes in Ghana's growing cities. Her attention to detail and customer-focused approach has earned her a loyal client base.</p></field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">5</field>
+        <field name="active">True</field>
+    </record>
+    
+    <record id="agent_kofi_ampomah" model="ghana_real_estate.agent">
+        <field name="name">Kofi Ampomah</field>
+        <field name="title">Commercial & Investment Expert</field>
+        <field name="license_number">GRE-2024-006</field>
+        <field name="phone">+233 24 678 9012</field>
+        <field name="email">kofi.ampomah@ghanarealestate.com</field>
+        <field name="whatsapp">+233246789012</field>
+        <field name="linkedin">https://linkedin.com/in/kofimpomah</field>
+        <field name="office_id" ref="office_kumasi"/>
+        <field name="years_experience">15</field>
+        <field name="client_rating">4.9</field>
+        <field name="properties_sold">250</field>
+        <field name="properties_rented">80</field>
+        <field name="review_count">156</field>
+        <field name="bio"><p>Kofi is our commercial and investment property expert. With 15 years of experience, he has facilitated numerous high-value transactions for investors looking to capitalize on Ghana's growing economy.</p></field>
+        <field name="website_published">True</field>
+        <field name="featured_agent">True</field>
+        <field name="sequence">6</field>
+        <field name="active">True</field>
+    </record>
+</odoo>
